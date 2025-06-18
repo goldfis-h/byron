@@ -1,0 +1,9 @@
+# .npmignore
+node_modules
+src
+tests
+examples
+dist
+types
+*.tsbuildinfo
+*.map

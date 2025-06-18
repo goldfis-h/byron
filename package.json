@@ -1,0 +1,36 @@
+{
+    "name": "my-vue-plugin",
+    "version": "1.1.0",
+    "description": "A Vue 3 plugin for [功能描述]",
+    "main": "dist/my-vue-plugin.umd.cjs",
+    "module": "dist/my-vue-plugin.esm.js",
+    "types": "types/index.d.ts",
+    "files": [
+        "dist",
+        "types"
+    ],
+    "keywords": [
+        "vue",
+        "vue3",
+        "plugin"
+    ],
+    "author": "Your Name <your@email.com>",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/yourusername/my-vue-plugin.git"
+    },
+    "scripts": {
+        "build": "vite build",
+        "dev": "vite",
+        "prepublishOnly": "npm run build"
+    },
+    "peerDependencies": {
+        "vue": "^3.0.0"
+    },
+    "devDependencies": {
+        "vite": "^4.0.0",
+        "vue": "^3.0.0",
+        "typescript": "^5.0.0"
+    }
+}

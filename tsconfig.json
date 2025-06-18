@@ -1,0 +1,56 @@
+{
+    "compilerOptions": {
+        "target": "ESNext",
+        "module": "ESNext",
+        "lib": [
+            "ESNext",
+            "DOM"
+        ],
+        "strict": true,
+        "jsx": "preserve",
+        "moduleResolution": "Node",
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "sourceMap": true,
+        "baseUrl": ".",
+        "paths": {
+            "@/*": [
+                "src/*"
+            ]
+        },
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "noEmit": false,
+        "declaration": true,
+        "declarationMap": true,
+        "outDir": "./dist/types",
+        "experimentalDecorators": true,
+        "useDefineForClassFields": true,
+        /* 插件开发特殊配置 */
+        "composite": true,
+        "incremental": true,
+        "tsBuildInfoFile": "./node_modules/.cache/tsconfig.buildinfo",
+        /* 发布相关配置 */
+        "rootDir": "./src",
+        "declarationDir": "./dist/types",
+        "emitDeclarationOnly": true
+    },
+    "ts-node": {
+        "compilerOptions": {
+            "module": "CommonJS"
+        }
+    },
+    "include": [
+        "src/**/*.ts",
+        "src/**/*.d.ts",
+        "src/**/*.tsx",
+        "src/**/*.vue"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist",
+        "tests",
+        "examples"
+    ]
+}
