@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { Uploader } from '../src/instance';
-import { getFileExt, formatSize, validateFileType, isValidUrl } from '../src/utils';
-import { FileTypeError, InvalidUrlError } from '../src/utils/errors';
+import { getFileExt, formatSize, validateFileType } from '../src/utils';
+import { FileTypeError } from '../src/utils/errors';
 // Mock Web Worker
 class MockWorker {
   postMessage: (data: unknown) => void;

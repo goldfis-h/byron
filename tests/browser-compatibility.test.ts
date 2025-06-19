@@ -16,7 +16,7 @@ describe('Browser API Compatibility', () => {
         onmessage = null;
         onmessageerror = null;
         onerror = null;
-        constructor(scriptURL: string | URL, options?: WorkerOptions) {}
+        constructor() {}
       }
     );
   });

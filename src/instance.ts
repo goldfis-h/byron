@@ -1,11 +1,5 @@
 import { UploadOptions, UploadStatus, Chunk } from './types';
-import {
-  formatSize,
-  fetchWithRetry,
-  isValidUrl,
-  validateFileType,
-  validateFileSize,
-} from './utils';
+import { fetchWithRetry, isValidUrl, validateFileType, validateFileSize } from './utils';
 import { validateOptions, type ValidationRule } from './utils/validation';
 import { HttpError, ValidationError, InvalidUrlError } from './utils/errors';
 

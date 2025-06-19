@@ -103,7 +103,7 @@ export function isValidUrl(url: string): boolean {
   try {
     new URL(url);
     return true;
-  } catch (error) {
+  } catch {
     throw new InvalidUrlError('无效的URL格式', url);
   }
 }
