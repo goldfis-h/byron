@@ -6,6 +6,7 @@
     "main": "dist/byron-vue-upload-file.umd.cjs",
     "module": "dist/byron-vue-upload-file.esm.js",
     "types": "types/index.d.ts",
+    "unpkg": "dist/byron-vue-upload-file.umd.js",
     "files": [
         "dist",
         "types"
