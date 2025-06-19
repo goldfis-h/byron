@@ -210,6 +210,6 @@ declare const UploaderPlugin: {
  * const uploader = useUploader();
  * ```
  */
-declare function useUploader(options?: UploadOptions): UploaderInstance;
+export declare function useUploader(_options?: UploadOptions): UploaderInstance;
 
 export default UploaderPlugin;
