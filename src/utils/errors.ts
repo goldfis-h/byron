@@ -157,3 +157,18 @@ export class FileTypeError extends UploadError {
     Object.setPrototypeOf(this, FileTypeError.prototype);
   }
 }
+
+/**
+ * 无效的配置选项错误
+ * @extends Error
+ * @property {string} message - 错误消息
+ */
+export class InvalidOptionError extends Error {
+  message: string;
+
+  constructor(message: string) {
+    super(message);
+    this.message = message;
+    this.name = 'InvalidOptionError';
+  }
+}

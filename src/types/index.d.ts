@@ -1,4 +1,15 @@
+// 整合所有类型定义
+import { App } from 'vue';
+import type { Uploader } from '../instance';
+
 export type UploadStatus = 'idle' | 'ready' | 'uploading' | 'paused' | 'complete' | 'error';
+
+/**
+ * 上传实例工厂函数类型
+ * @param options - 上传配置选项
+ * @returns 上传实例
+ */
+export type UploaderFactory = (options: UploadOptions) => Uploader;
 
 export interface Chunk {
   index: number;
@@ -136,3 +147,69 @@ export interface UploaderPluginOptions {
   /** 自定义全局方法名称，默认值: 'uploader' */
   globalMethodName?: string;
 }
+
+/**
+ * 上传插件接口定义
+ */
+export interface UploaderPlugin {
+  /**
+   * 安装插件
+   * @param app - Vue应用实例
+   * @param options - 插件配置选项
+   * @param globalUploadOptions - 全局上传配置选项
+   */
+  install: (app: App, options?: UploaderPluginOptions, globalUploadOptions?: UploadOptions) => void;
+  /** 插件版本号 */
+  version: string;
+}
+
+/**
+ * 上传插件实例类型
+ */
+export interface UploaderPluginInstance {
+  /**
+   * 创建上传实例
+   * @param options 上传配置选项
+   */
+  create(options: UploadOptions): UploaderInstance;
+  /** 插件版本 */
+  version: string;
+}
+
+// 扩展Vue类型
+declare module '@vue/runtime-core' {
+  interface ComponentCustomProperties {
+    /** 全局上传插件实例 */
+    $uploader: UploaderPluginInstance;
+  }
+}
+
+/**
+ * 上传插件
+ */
+declare const UploaderPlugin: {
+  install(app: App, options?: UploaderPluginOptions): void;
+};
+
+/**
+ * 组合式API: 创建上传实例
+ * 支持两种使用方式：
+ * 1. 独立使用：直接调用，使用默认配置
+ * 2. 插件模式：通过app.use安装后使用全局配置
+ * @param options - 上传配置选项
+ * @returns 上传实例
+ * @example
+ * ```typescript
+ * // 独立使用
+ * const uploader = useUploader({
+ *   url: '/api/upload',
+ *   chunkSize: 2 * 1024 * 1024
+ * });
+ *
+ * // 插件模式 (需先通过app.use安装)
+ * const uploader = useUploader();
+ * ```
+ */
+declare function useUploader(options?: UploadOptions): UploaderInstance;
+
+export default UploaderPlugin;

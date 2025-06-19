@@ -2,7 +2,10 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
-    "lib": ["ESNext", "DOM"],
+    "lib": [
+      "ESNext",
+      "DOM"
+    ],
     "strict": true,
     "jsx": "preserve",
     "moduleResolution": "Node",
@@ -12,7 +15,9 @@
     "sourceMap": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": [
+        "src/*"
+      ]
     },
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -29,6 +34,10 @@
     /* 发布相关配置 */
     "rootDir": "./src",
     "declarationDir": "./dist/types",
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/types",
+    ],
     "emitDeclarationOnly": true
   },
   "ts-node": {
@@ -36,6 +45,17 @@
       "module": "CommonJS"
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
-  "exclude": ["node_modules", "dist", "tests", "examples"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "src/types/**/*.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "tests",
+    "examples"
+  ]
 }

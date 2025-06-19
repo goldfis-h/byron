@@ -1,4 +1,4 @@
-import { UploadOptions } from '../types';
+import { UploadOptions } from '@/types';
 import { ValidationError } from './errors';
 
 /**
