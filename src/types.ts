@@ -1,10 +1,4 @@
-export type UploadStatus =
-  | "idle"
-  | "ready"
-  | "uploading"
-  | "paused"
-  | "complete"
-  | "error";
+export type UploadStatus = 'idle' | 'ready' | 'uploading' | 'paused' | 'complete' | 'error';
 
 export interface Chunk {
   index: number;
@@ -22,7 +16,7 @@ export interface Chunk {
  * @property {number} [maxSize=Infinity] - 最大文件大小(字节)，默认无限制
  * @property {number} [concurrency=3] - 并发上传数量，必须是正整数
  * @property {number} [checkTimeout=5000] - 分片检查超时时间(毫秒)
- * @property {string|Object} uploadUrl - 上传相关接口配置
+ * @property {string|UploadUrlObject} uploadUrl - 上传相关接口配置，可以是字符串或包含上传相关接口的对象
  * @property {string} [fileIdFieldName='fileId'] - 自定义fileId参数名
  * @property {boolean} [useChunkedUpload=true] - 是否启用分片上传，设为false将直接上传整个文件
  * @example
@@ -45,6 +39,19 @@ export interface Chunk {
  *   }
  * }
  */
+/**
+ * 上传URL配置对象接口
+ * @interface UploadUrlObject
+ * @property {string} upload - 分片上传接口URL
+ * @property {string} check - 分片检查接口URL
+ * @property {string} merge - 文件合并接口URL
+ */
+export interface UploadUrlObject {
+  upload: string;
+  check: string;
+  merge: string;
+}
+
 export interface UploadOptions {
   /**
    * 自定义fileId参数名
@@ -56,27 +63,31 @@ export interface UploadOptions {
    * 分片大小(字节)
    * @default 2*1024*1024 (2MB)
    * @minimum 1024 (1KB)
+   * @TJS-type integer
    */
   chunkSize?: number;
   /**
    * 允许的文件类型数组
+   * 支持MIME类型(如'image/jpeg')或文件扩展名(如'.png')
    * @default [] (允许所有类型)
-   * @example ['image/jpeg', 'application/pdf', '.png']
+   * @example ['image/jpeg', 'image/png', '.pdf', '.doc']
    */
-  allowedTypes?: string[];
+  allowedTypes?: (string | `.${string}`)[];
   /**
    * 最大文件大小(字节)
    * @default Infinity (无限制)
    * @minimum 0
+   * @TJS-type integer
    */
   maxSize?: number;
   /**
    * 并发上传数量
    * @default 3
    * @minimum 1
-   * @integer
+   * @maximum 10
+   * @TJS-type integer
    */
-  concurrency?: number;
+  concurrency?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
   /**
    * 分片检查超时时间(毫秒)
    * @default 5000
@@ -96,8 +107,10 @@ export interface UploadOptions {
       };
   /** 上传进度回调函数 */
   onProgress?: (progress: number) => void;
+  /** 哈希计算进度回调函数 */
+  onHashProgress?: (progress: number) => void;
   /** 上传完成回调函数 */
-  onComplete?: (result: any) => void;
+  onComplete?: (result: unknown) => void;
   /** 上传错误回调函数 */
   onError?: (error: string) => void;
 }

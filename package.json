@@ -1,9 +1,10 @@
 {
-    "name": "my-vue-plugin",
+    "name": "byron-vue-upload-file",
+    "sideEffects": false,
     "version": "1.1.0",
-    "description": "A Vue 3 plugin for [功能描述]",
-    "main": "dist/my-vue-plugin.umd.cjs",
-    "module": "dist/my-vue-plugin.esm.js",
+    "description": "A Vue 3 plugin for upload file.",
+    "main": "dist/byron-vue-upload-file.umd.cjs",
+    "module": "dist/byron-vue-upload-file.esm.js",
     "types": "types/index.d.ts",
     "files": [
         "dist",
@@ -18,19 +19,40 @@
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "https://github.com/yourusername/my-vue-plugin.git"
+        "url": "https://github.com/yourusername/byron-vue-upload-file.git"
     },
     "scripts": {
         "build": "vite build",
         "dev": "vite",
-        "prepublishOnly": "npm run build"
+        "lint": "eslint . --ext .ts,.vue --fix",
+        "test": "vitest --coverage",
+        "prepublishOnly": "npm run build && npm run test",
+        "prepare": "husky install"
     },
     "peerDependencies": {
         "vue": "^3.0.0"
     },
+    "dependencies": {
+        "spark-md5": "^3.0.2"
+    },
     "devDependencies": {
-        "vite": "^4.0.0",
-        "vue": "^3.0.0",
-        "typescript": "^5.0.0"
+        "@types/spark-md5": "^3.0.5",
+        "@typescript-eslint/eslint-plugin": "^8.34.1",
+        "@typescript-eslint/parser": "^8.34.1",
+        "@vitejs/plugin-vue": "^5.2.4",
+        "@vitest/coverage-v8": "^3.2.4",
+        "@vitest/ui": "^3.2.4",
+        "eslint": "^9.29.0",
+        "eslint-config-prettier": "^10.1.5",
+        "eslint-plugin-prettier": "^5.5.0",
+        "eslint-plugin-vue": "^10.2.0",
+        "globals": "^16.2.0",
+        "husky": "^9.1.7",
+        "jsdom": "^26.1.0",
+        "prettier": "^3.5.3",
+        "typescript": "^5.0.0",
+        "vite": "^6.3.5",
+        "vitest": "^3.2.4",
+        "vue-eslint-parser": "^10.1.3"
     }
 }

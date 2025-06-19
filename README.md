@@ -12,6 +12,9 @@
 - **类型安全**：使用 TypeScript 开发，提供完整的类型定义
 - **双 API 支持**：同时支持 Options API 和 Composition API，适应不同开发风格
 - **可扩展性**：支持自定义分片检查、上传和合并逻辑
+- **错误处理**：完善的错误处理机制，包括超时、网络错误等
+- **自定义请求头**：可配置上传请求头，满足个性化需求
+- **上传进度可视化**：提供上传进度条，方便用户监控上传状态
 
 ## 📦 安装
 
@@ -29,24 +32,24 @@ yarn add byron-vue-upload-file
 
 ```javascript
 // main.js
-import { createApp } from "vue";
-import App from "./App.vue";
-import UploaderPlugin from "byron-vue-upload-file";
+import { createApp } from 'vue';
+import App from './App.vue';
+import UploaderPlugin from 'byron-vue-upload-file';
 
 const app = createApp(App);
 
 // 安装上传插件
 app.use(UploaderPlugin, {
   // 可选的全局配置
-  globalMethodName: "$uploader", // 全局方法名称
+  globalMethodName: '$uploader', // 全局方法名称
   defaultUploadOptions: {
     chunkSize: 2, // 默认分片大小(MB)
-    uploadUrl: "/api/upload", // 默认上传接口URL
+    uploadUrl: '/api/upload', // 默认上传接口URL
     concurrency: 3, // 默认并发数
   },
 });
 
-app.mount("#app");
+app.mount('#app');
 ```
 
 ### 2. 在组件中使用
@@ -66,11 +69,11 @@ export default {
       if (file) {
         // 创建上传实例
         const uploader = this.$uploader({
-          uploadUrl: "/api/upload",
+          uploadUrl: '/api/upload',
           chunkSize: 2,
-          onProgress: (progress) => console.log("进度:", progress),
-          onComplete: (result) => console.log("完成:", result),
-          onError: (error) => console.error("错误:", error),
+          onProgress: (progress) => console.log('进度:', progress),
+          onComplete: (result) => console.log('完成:', result),
+          onError: (error) => console.error('错误:', error),
         });
 
         // 设置文件并开始上传
@@ -92,14 +95,14 @@ export default {
 </template>
 
 <script setup>
-import { useUploader } from "byron-vue-upload-file";
+import { useUploader } from 'byron-vue-upload-file';
 
 const handleFileChange = async (e) => {
   const file = e.target.files[0];
   if (file) {
     // 创建上传实例
     const uploader = useUploader({
-      uploadUrl: "/api/upload",
+      uploadUrl: '/api/upload',
       useChunkedUpload: true, // 启用分片上传
       chunkSize: 2,
       concurrency: 3,
@@ -107,11 +110,11 @@ const handleFileChange = async (e) => {
 
     // 设置上传回调
     uploader.onProgress = (progress) => {
-      console.log("上传进度:", progress);
+      console.log('上传进度:', progress);
     };
 
     uploader.onComplete = (result) => {
-      console.log("上传完成:", result);
+      console.log('上传完成:', result);
     };
 
     // 设置文件并开始上传
@@ -126,31 +129,55 @@ const handleFileChange = async (e) => {
 ### 3. 直接创建实例
 
 ```javascript
-import { Uploader } from "byron-vue-upload-file";
+import { Uploader } from 'byron-vue-upload-file';
 
 // 创建上传实例
 const uploader = new Uploader({
-  uploadUrl: "/api/upload",
+  uploadUrl: '/api/upload',
   useChunkedUpload: false, // 禁用分片上传，直接上传整个文件
   maxSize: 100, // 最大文件大小(MB)
-  allowedTypes: ["image/jpeg", "image/png", "application/pdf"],
+  allowedTypes: ['image/jpeg', 'image/png', 'application/pdf'],
 });
 
 // 设置文件
 const fileInput = document.querySelector('input[type="file"]');
-fileInput.addEventListener("change", (e) => {
+fileInput.addEventListener('change', (e) => {
   const file = e.target.files[0];
   if (file && uploader.setFile(file)) {
     // 开始上传
     uploader
       .start()
-      .then((result) => console.log("上传成功:", result))
-      .catch((error) => console.error("上传失败:", error));
+      .then((result) => console.log('上传成功:', result))
+      .catch((error) => console.error('上传失败:', error));
   }
 });
 ```
 
 ## ⚙️ 配置选项 (UploadOptions)
+
+#### 哈希计算进度回调
+
+通过 `onHashProgress` 回调获取文件哈希计算进度（0-100）：
+
+```javascript
+const uploader = new Uploader({
+  // ...其他配置
+  onHashProgress: (progress) => {
+    console.log(`哈希计算进度: ${progress}%`);
+  },
+});
+```
+
+#### 浏览器兼容性
+
+| 特性            | 支持情况 | 最低版本要求 |
+| --------------- | -------- | ------------ |
+| Web Worker      | ✅ 支持  | IE 10+       |
+| FileReader API  | ✅ 支持  | IE 10+       |
+| FormData        | ✅ 支持  | IE 10+       |
+| AbortController | ✅ 支持  | Chrome 66+   |
+
+不支持Web Worker的环境将自动降级为同步计算（可能阻塞UI线程）
 
 | 参数名           | 类型                                                  | 默认值    | 描述                                         |
 | ---------------- | ----------------------------------------------------- | --------- | -------------------------------------------- |
@@ -184,13 +211,7 @@ fileInput.addEventListener("change", (e) => {
 ## 📊 上传状态 (UploadStatus)
 
 ```typescript
-type UploadStatus =
-  | "idle"
-  | "ready"
-  | "uploading"
-  | "paused"
-  | "complete"
-  | "error";
+type UploadStatus = 'idle' | 'ready' | 'uploading' | 'paused' | 'complete' | 'error';
 ```
 
 ## 🔄 后端接口要求
@@ -249,15 +270,15 @@ type UploadStatus =
 </template>
 
 <script setup>
-import { ref, computed, onUnmounted } from "vue";
-import { useUploader } from "byron-vue-upload-file";
+import { ref, computed, onUnmounted } from 'vue';
+import { useUploader } from 'byron-vue-upload-file';
 
 // 创建上传实例
 const uploader = useUploader({
-  uploadUrl: "/api/upload",
+  uploadUrl: '/api/upload',
   chunkSize: 2,
   concurrency: 3,
-  allowedTypes: ["image/jpeg", "image/png", "application/pdf"],
+  allowedTypes: ['image/jpeg', 'image/png', 'application/pdf'],
   maxSize: 50,
 });
 
@@ -268,11 +289,11 @@ const file = ref(null);
 // 监听上传事件
 uploader.onProgress = (p) => (progress.value = p);
 uploader.onComplete = (result) => {
-  console.log("上传完成:", result);
-  alert("文件上传成功!");
+  console.log('上传完成:', result);
+  alert('文件上传成功!');
 };
 uploader.onError = (error) => {
-  console.error("上传错误:", error);
+  console.error('上传错误:', error);
   alert(`上传失败: ${error}`);
 };
 
@@ -280,25 +301,21 @@ uploader.onError = (error) => {
 const status = computed(() => uploader.getStatus());
 const statusText = computed(() => {
   const statusMap = {
-    idle: "未选择文件",
-    ready: "就绪",
-    uploading: "上传中",
-    paused: "已暂停",
-    complete: "上传完成",
-    error: "上传错误",
+    idle: '未选择文件',
+    ready: '就绪',
+    uploading: '上传中',
+    paused: '已暂停',
+    complete: '上传完成',
+    error: '上传错误',
   };
   return statusMap[status.value];
 });
 
 // 按钮状态控制
-const canStart = computed(
-  () => status.value === "ready" || status.value === "paused"
-);
-const canPause = computed(() => status.value === "uploading");
-const canResume = computed(() => status.value === "paused");
-const canCancel = computed(
-  () => status.value !== "idle" && status.value !== "complete"
-);
+const canStart = computed(() => status.value === 'ready' || status.value === 'paused');
+const canPause = computed(() => status.value === 'uploading');
+const canResume = computed(() => status.value === 'paused');
+const canCancel = computed(() => status.value !== 'idle' && status.value !== 'complete');
 
 // 事件处理
 const handleFileChange = (e) => {

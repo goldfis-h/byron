@@ -1,6 +1,6 @@
 // src/types/index.d.ts
-import { App } from "vue";
-import type { UploadOptions, UploaderInstance } from "../src/types";
+import { App } from 'vue';
+import type { UploadOptions, UploaderInstance } from '../src/types';
 
 /**
  * 上传插件配置选项
@@ -9,7 +9,7 @@ export interface UploaderPluginOptions {
   /** 全局方法名称，默认: '$uploader' */
   globalMethodName?: string;
   /** 默认上传配置 */
-  defaultUploadOptions?: Omit<UploadOptions, "uploadUrl">;
+  defaultUploadOptions?: Omit<UploadOptions, 'uploadUrl'>;
 }
 
 /**
@@ -26,7 +26,7 @@ export interface UploaderPluginInstance {
 }
 
 // 扩展Vue类型
-declare module "@vue/runtime-core" {
+declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
     /** 全局上传插件实例 */
     $uploader: UploaderPluginInstance;
