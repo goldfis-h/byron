@@ -1,7 +1,7 @@
 {
     "name": "byron-vue-upload-file",
     "sideEffects": false,
-    "version": "1.2.0",
+    "version": "1.2.1",
     "description": "A Vue 3 plugin for upload file.",
     "main": "dist/byron-vue-upload-file.umd.cjs",
     "module": "dist/byron-vue-upload-file.esm.js",
