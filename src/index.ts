@@ -37,7 +37,7 @@ export const ByronVueUploadFile = {
 
 export default UploaderPlugin;
 // 导出命名空间以便按需导入
-export * from './types';
+export * from './types/index';
 export * from './utils/errors';
 export { Uploader, useUploader, version };
 
