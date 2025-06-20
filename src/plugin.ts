@@ -19,10 +19,20 @@ function validatePluginOptions(options?: UploaderPluginOptions): void {
 
   if (options.globalMethodName) {
     if (typeof options.globalMethodName !== 'string') {
-      throw new InvalidOptionError('globalMethodName 必须是字符串类型');
+      throw new InvalidOptionError(
+        'globalMethodName 必须是字符串类型',
+        'globalMethodName',
+        options.globalMethodName,
+        '当前类型不符合要求'
+      );
     }
     if (!/^[$_a-zA-Z][$_a-zA-Z0-9]*$/.test(options.globalMethodName)) {
-      throw new InvalidOptionError('globalMethodName 必须是有效的 JavaScript 标识符');
+      throw new InvalidOptionError(
+        'globalMethodName 必须是有效的 JavaScript 标识符',
+        'globalMethodName',
+        options.globalMethodName,
+        '不符合标识符规则'
+      );
     }
   }
 }

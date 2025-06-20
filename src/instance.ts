@@ -35,11 +35,9 @@ export class Uploader {
     validateOptions(options, this.validationRules);
 
     this.options = {
-      fileIdFieldName: options.fileIdFieldName || 'fileId',
-      useChunkedUpload: options.useChunkedUpload || true,
+      fileIdFieldName: 'fileId',
+      useChunkedUpload: true,
       chunkSize: 2 * 1024 * 1024, // 默认2MB分片
-      // 默认为空数组，表示允许所有文件类型
-      // 如需限制文件类型，可指定具体MIME类型数组，如 ['image/jpeg', 'image/png']
       allowedTypes: [],
       maxSize: 50, // 默认50MB
       concurrency: 3,

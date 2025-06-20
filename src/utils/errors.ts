@@ -1,11 +1,29 @@
 /**
- * 自定义HTTP错误类
+ * 基础错误类，所有自定义错误都应继承此类
  * @extends Error
+ * @property {string} name - 错误名称
+ * @property {string} message - 错误消息
+ * @property {string} [details] - 错误详情
+ */
+export class BaseError extends Error {
+  details?: string;
+
+  constructor(message: string, details?: string) {
+    super(message);
+    this.name = this.constructor.name;
+    this.details = details;
+    Object.setPrototypeOf(this, BaseError.prototype);
+  }
+}
+
+/**
+ * 自定义HTTP错误类
+ * @extends BaseError
  * @property {number} status - HTTP状态码
  * @property {string} url - 请求URL
  * @property {string} details - 错误详情
  */
-export class HttpError extends Error {
+export class HttpError extends BaseError {
   status: number;
   url: string;
   details?: string;
@@ -23,9 +41,6 @@ export class HttpError extends Error {
     this.status = status;
     this.url = url;
     this.details = details;
-
-    // 修复原型链指向，确保instanceof正常工作
-    Object.setPrototypeOf(this, HttpError.prototype);
   }
 }
 
@@ -50,8 +65,6 @@ export class UploadError extends Error {
     this.name = 'UploadError';
     this.code = code;
     this.file = file;
-    // 修复原型链指向，确保instanceof正常工作
-    Object.setPrototypeOf(this, UploadError.prototype);
   }
 }
 
@@ -72,7 +85,6 @@ export class InvalidUrlError extends Error {
     super(message);
     this.name = 'InvalidUrlError';
     this.url = url;
-    Object.setPrototypeOf(this, InvalidUrlError.prototype);
   }
 }
 
@@ -97,7 +109,6 @@ export class ValidationError extends Error {
     this.name = 'ValidationError';
     this.param = param;
     this.value = value;
-    Object.setPrototypeOf(this, ValidationError.prototype);
   }
 }
 
@@ -123,7 +134,6 @@ export class UploadSizeError extends UploadError {
     this.name = 'UploadSizeError';
     this.maxSize = maxSize;
     this.actualSize = actualSize;
-    Object.setPrototypeOf(this, UploadSizeError.prototype);
   }
 }
 
@@ -154,21 +164,22 @@ export class FileTypeError extends UploadError {
     this.name = 'FileTypeError';
     this.allowedTypes = allowedTypes;
     this.actualType = actualType;
-    Object.setPrototypeOf(this, FileTypeError.prototype);
   }
 }
 
 /**
  * 无效的配置选项错误
- * @extends Error
- * @property {string} message - 错误消息
+ * @extends BaseError
+ * @property {string} param - 无效的配置选项名
+ * @property {unknown} value - 无效的配置选项值
  */
-export class InvalidOptionError extends Error {
-  message: string;
+export class InvalidOptionError extends BaseError {
+  param: string;
+  value: unknown;
 
-  constructor(message: string) {
-    super(message);
-    this.message = message;
-    this.name = 'InvalidOptionError';
+  constructor(message: string, param: string, value: unknown, details?: string) {
+    super(message, details);
+    this.param = param;
+    this.value = value;
   }
 }
